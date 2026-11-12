@@ -73,7 +73,7 @@ Detalle de decisiones, flujo de una alerta, pipeline de IA, endpoints y capas de
 ### Requisitos
 
 - .NET SDK 8
-- Node.js 20+ y npm
+- Node.js 22 y npm
 - Python 3.11+ (solo para regenerar el modelo)
 - Para desplegar: suscripción de Azure y Azure CLI (`az`) con Bicep
 
