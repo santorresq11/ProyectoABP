@@ -181,3 +181,10 @@ Diapositivas en [`presentacion/`](presentacion/): `AulaNube-presentacion.pptx` y
 ## 7. Estado y trabajo futuro
 
 Este repositorio es un **prototipo funcional (sketch)**: el flujo completo funciona en local con datos ficticios y la infraestructura está lista para desplegarse. Pendiente para una siguiente fase: persistencia en Azure SQL con EF Core, autenticación con Entra ID, entrenar la LSTM en Azure ML con datos de un colegio piloto, modo sin conexión para sedes rurales e informes en lenguaje natural con Azure OpenAI.
+
+
+## 8. Licencia
+
+Proyecto ABP - AulaNube © 2026 de Santiago Torres está licenciado bajo CC BY-NC-SA 4.0. Para ver una copia de esta licencia, visite https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
