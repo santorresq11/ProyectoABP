@@ -1,0 +1,15 @@
+sequenceDiagram
+    actor D as Docente
+    participant W as Angular (Static Web Apps)
+    participant A as API .NET (App Service)
+    participant S as Azure SQL
+    participant M as Motor de inferencia
+    D->>W: Registra nota o asistencia del periodo
+    W->>A: POST /api/estudiantes/{id}/calificaciones
+    A->>A: Valida datos (rango 1.0 a 5.0)
+    A->>S: Guarda registro
+    A->>M: Construye variables (promedio, tendencia, asistencia, contexto)
+    M-->>A: Probabilidad + factores explicativos
+    A-->>W: Evaluación de riesgo (Bajo / Medio / Alto)
+    W-->>D: Alerta, por qué y acciones sugeridas
+    Note over D: La decisión final la toma el equipo docente y de orientación

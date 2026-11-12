@@ -1,0 +1,40 @@
+flowchart LR
+    subgraph Usuarios["Colegios sin infraestructura TI"]
+        DOC["Docentes y directores de grupo"]
+        ORI["Orientación y rectoría"]
+        SEC["Secretaría académica"]
+    end
+
+    subgraph Azure["Microsoft Azure · grupo de recursos rg-aulanube"]
+        ENTRA["Microsoft Entra ID<br/>inicio de sesión y roles"]
+        SWA["Azure Static Web Apps<br/>Frontend Angular"]
+        API["Azure App Service Linux<br/>API REST .NET 8"]
+        SQL[("Azure SQL Database<br/>serverless, autopausa")]
+        BLOB[("Azure Blob Storage<br/>modelos y cargas SIMAT")]
+        KV["Azure Key Vault<br/>secretos"]
+        AML["Azure Machine Learning<br/>entrenamiento LSTM + registro"]
+        AI["Application Insights<br/>+ Log Analytics"]
+    end
+
+    subgraph Fuentes["Datos abiertos y oficiales"]
+        SIMAT["SIMAT<br/>matrícula"]
+        DANE["DANE / datos.gov.co<br/>contexto territorial"]
+        MEN["MEN<br/>tasas de deserción"]
+    end
+
+    GH["GitHub Actions<br/>CI/CD + Bicep"]
+
+    DOC & ORI & SEC -->|HTTPS| SWA
+    SWA -->|OIDC| ENTRA
+    SWA -->|REST JSON| API
+    API -->|EF Core, identidad administrada| SQL
+    API -->|lee modelo vigente| BLOB
+    API --> KV
+    API -.->|telemetría| AI
+    SIMAT & DANE & MEN -->|ETL| BLOB
+    BLOB --> AML
+    SQL -->|historial seudonimizado| AML
+    AML -->|publica modelo ONNX / JSON| BLOB
+    GH -->|despliega| SWA
+    GH -->|despliega| API
+    GH -->|infraestructura como código| Azure

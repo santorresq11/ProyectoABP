@@ -1,0 +1,108 @@
+{
+  "version": "base-logistica-20261112",
+  "descripcion": "Regresión logística L2 (línea base). Reemplazable por la LSTM exportada a ONNX.",
+  "intercepto": -3.72919,
+  "umbrales": {
+    "medio": 0.15,
+    "alto": 0.4
+  },
+  "variables": [
+    {
+      "nombre": "promedio_notas",
+      "descripcion": "Promedio de notas del último periodo (1.0 a 5.0)",
+      "media": 3.58915,
+      "desviacion": 0.710835,
+      "peso": -0.588383
+    },
+    {
+      "nombre": "tendencia_notas",
+      "descripcion": "Cambio del promedio entre el primer y el último periodo",
+      "media": -0.147942,
+      "desviacion": 0.501548,
+      "peso": -1.155905
+    },
+    {
+      "nombre": "asignaturas_perdidas",
+      "descripcion": "Asignaturas con nota inferior a 3.0 en el último periodo",
+      "media": 1.167083,
+      "desviacion": 1.637921,
+      "peso": 0.734544
+    },
+    {
+      "nombre": "asistencia",
+      "descripcion": "Porcentaje de asistencia del último periodo",
+      "media": 0.917143,
+      "desviacion": 0.062764,
+      "peso": -0.350103
+    },
+    {
+      "nombre": "tendencia_asistencia",
+      "descripcion": "Cambio de la asistencia entre el primer y el último periodo",
+      "media": -0.014792,
+      "desviacion": 0.040815,
+      "peso": -0.066882
+    },
+    {
+      "nombre": "extraedad",
+      "descripcion": "Años por encima de la edad esperada para el grado",
+      "media": 0.866667,
+      "desviacion": 1.048895,
+      "peso": 0.420121
+    },
+    {
+      "nombre": "repitente",
+      "descripcion": "El estudiante repitió algún grado",
+      "media": 0.116667,
+      "desviacion": 0.32109,
+      "peso": 0.188303
+    },
+    {
+      "nombre": "trabaja",
+      "descripcion": "El estudiante trabaja fuera del horario escolar",
+      "media": 0.137917,
+      "desviacion": 0.344884,
+      "peso": 0.299354
+    },
+    {
+      "nombre": "distancia_km",
+      "descripcion": "Distancia entre la vivienda y la sede (km)",
+      "media": 3.179625,
+      "desviacion": 3.5442,
+      "peso": 0.182672
+    },
+    {
+      "nombre": "estrato",
+      "descripcion": "Estrato socioeconómico de la vivienda (DANE)",
+      "media": 1.65,
+      "desviacion": 0.733865,
+      "peso": -0.03678
+    },
+    {
+      "nombre": "beneficiario_pae",
+      "descripcion": "Recibe el Programa de Alimentación Escolar",
+      "media": 0.695833,
+      "desviacion": 0.460149,
+      "peso": -0.222016
+    }
+  ],
+  "metricas": {
+    "fecha": "2026-11-12",
+    "n_entrenamiento": 2400,
+    "n_prueba": 600,
+    "tasa_desercion_prueba": 0.1467,
+    "umbral_alerta_media": {
+      "accuracy": 0.89,
+      "precision": 0.5797,
+      "recall": 0.9091,
+      "f1": 0.708,
+      "roc_auc": 0.9617
+    },
+    "umbral_alerta_alta": {
+      "accuracy": 0.9333,
+      "precision": 0.7727,
+      "recall": 0.7727,
+      "f1": 0.7727,
+      "roc_auc": 0.9617
+    }
+  }
+}

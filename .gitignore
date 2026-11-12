@@ -1,0 +1,24 @@
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Artefactos pesados del modelo LSTM
+ml/artefactos/*.onnx
+ml/artefactos/*.pt
+
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,32 @@
+<header class="barra">
+  <a routerLink="/" class="marca">
+    <span class="logo" aria-hidden="true">◆</span>
+    <span>
+      <strong>AulaNube</strong>
+      <small>Alerta temprana de deserción escolar</small>
+    </span>
+  </a>
+  @if (colegios().length) {
+    <label class="selector">
+      <span>Colegio</span>
+      <select [value]="colegioActual.id()" (change)="cambiarColegio($event)">
+        @for (c of colegios(); track c.id) {
+          <option [value]="c.id">{{ c.nombre }} · {{ c.municipio }}</option>
+        }
+      </select>
+    </label>
+  }
+</header>
+
+@if (error()) {
+  <p class="aviso-error" role="alert">{{ error() }}</p>
+}
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="pie">
+  La alerta es un apoyo para el equipo docente y de orientación: la decisión final siempre es humana.
+  Datos de demostración ficticios.
+</footer>
