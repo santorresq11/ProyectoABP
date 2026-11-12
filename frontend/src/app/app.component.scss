@@ -1,0 +1,76 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 24px;
+  background: var(--primario);
+  color: #fff;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+
+  .logo {
+    font-size: 26px;
+    color: var(--acento);
+  }
+
+  strong {
+    display: block;
+    font-size: 18px;
+  }
+
+  small {
+    opacity: 0.85;
+  }
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+
+  select {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: none;
+    max-width: 70vw;
+  }
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.aviso-error {
+  margin: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--alto-suave);
+  color: var(--alto);
+}
+
+.pie {
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--texto-suave);
+  border-top: 1px solid var(--borde);
+}

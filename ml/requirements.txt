@@ -1,0 +1,5 @@
+numpy>=1.26
+pandas>=2.1
+# Solo para el modelo LSTM (train_lstm.py) y su exportación a ONNX
+torch>=2.2
+onnx>=1.15

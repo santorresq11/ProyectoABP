@@ -1,0 +1,9 @@
+flowchart LR
+    A["1. Captura<br/>SIMAT, notas, asistencia,<br/>DANE, datos.gov.co"] --> B["2. ETL<br/>limpieza, integración,<br/>seudonimización"]
+    B --> C["3. Preprocesamiento<br/>escalado, secuencias<br/>por periodo, tensores"]
+    C --> D["4. Entrenamiento<br/>LSTM + MLP en<br/>Azure Machine Learning"]
+    D --> E["5. Evaluación<br/>ROC-AUC, recall, F1,<br/>sesgo por zona"]
+    E --> F["6. Registro<br/>modelo ONNX/JSON<br/>en Blob Storage"]
+    F --> G["7. Inferencia<br/>API .NET + explicación<br/>por variable"]
+    G --> H["8. Prescripción<br/>acciones sugeridas<br/>ruta de permanencia"]
+    H --> I["9. Visualización<br/>tablero Angular<br/>para docentes"]

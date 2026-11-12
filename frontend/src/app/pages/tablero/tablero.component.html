@@ -1,0 +1,105 @@
+@if (resumen(); as r) {
+  <section class="encabezado">
+    <div>
+      <h1>{{ r.colegio }}</h1>
+      <p class="sub">Tablero de permanencia escolar · modelo {{ r.versionModelo }}</p>
+    </div>
+  </section>
+
+  <section class="kpis">
+    <div class="tarjeta kpi">
+      <span class="etiqueta">Estudiantes</span>
+      <strong>{{ r.totalEstudiantes }}</strong>
+    </div>
+    <button type="button" class="tarjeta kpi alto" [class.activo]="filtroNivel() === 'Alto'" (click)="alternarNivel('Alto')">
+      <span class="etiqueta">Riesgo alto</span>
+      <strong>{{ r.riesgoAlto }}</strong>
+    </button>
+    <button type="button" class="tarjeta kpi medio" [class.activo]="filtroNivel() === 'Medio'" (click)="alternarNivel('Medio')">
+      <span class="etiqueta">Riesgo medio</span>
+      <strong>{{ r.riesgoMedio }}</strong>
+    </button>
+    <div class="tarjeta kpi">
+      <span class="etiqueta">Promedio general</span>
+      <strong>{{ r.promedioGeneral | number: '1.2-2' }}</strong>
+    </div>
+    <div class="tarjeta kpi">
+      <span class="etiqueta">Asistencia promedio</span>
+      <strong>{{ r.asistenciaPromedio | percent: '1.0-1' }}</strong>
+    </div>
+  </section>
+
+  <section class="cuerpo">
+    <div class="tarjeta grados">
+      <h2>Alertas por grado</h2>
+      <ul>
+        @for (g of r.porGrado; track g.grado) {
+          <li>
+            <span class="grado">{{ g.grado }}°</span>
+            <span class="barra" [style.width.%]="(g.total / maxPorGrado()) * 100">
+              <span class="seg alto" [style.flex]="g.alto"></span>
+              <span class="seg medio" [style.flex]="g.medio"></span>
+              <span class="seg bajo" [style.flex]="g.total - g.alto - g.medio"></span>
+            </span>
+            <span class="cuenta">{{ g.alto + g.medio }}/{{ g.total }}</span>
+          </li>
+        }
+      </ul>
+      <p class="leyenda">
+        <span class="punto alto"></span> Alto <span class="punto medio"></span> Medio <span class="punto bajo"></span> Bajo
+      </p>
+    </div>
+
+    <div class="tarjeta lista">
+      <div class="lista-encabezado">
+        <h2>Estudiantes priorizados</h2>
+        <div class="filtros">
+          @for (n of niveles; track n) {
+            <button type="button" class="chip {{ n }}" [class.inactivo]="filtroNivel() && filtroNivel() !== n" (click)="alternarNivel(n)">
+              {{ n }}
+            </button>
+          }
+          <select aria-label="Filtrar por grado" (change)="cambiarGrado($event)">
+            <option value="">Todos los grados</option>
+            @for (g of r.porGrado; track g.grado) {
+              <option [value]="g.grado">{{ g.grado }}°</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Estudiante</th>
+              <th>Grado</th>
+              <th>Promedio</th>
+              <th>Asistencia</th>
+              <th>Probabilidad</th>
+              <th>Alerta</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (e of estudiantes(); track e.id) {
+              <tr>
+                <td><a [routerLink]="['/estudiantes', e.id]">{{ e.nombre }}</a></td>
+                <td>{{ e.grado }}°</td>
+                <td [class.malo]="e.promedioActual < 3">{{ e.promedioActual | number: '1.1-1' }}</td>
+                <td [class.malo]="e.asistenciaActual < 0.85">{{ e.asistenciaActual | percent: '1.0-0' }}</td>
+                <td>{{ e.probabilidadRiesgo | percent: '1.0-0' }}</td>
+                <td><span class="chip {{ e.nivelRiesgo }}">{{ e.nivelRiesgo }}</span></td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6">{{ cargando() ? 'Cargando…' : 'No hay estudiantes con estos filtros.' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+} @else {
+  <p>Cargando tablero…</p>
+}

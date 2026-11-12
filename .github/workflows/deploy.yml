@@ -1,0 +1,84 @@
+name: Desplegar en Azure
+
+# Despliegue manual. Requiere configurar en el repositorio:
+#   Secrets:   AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID (federación OIDC), SQL_ADMIN_PASSWORD
+#   Variables: AZURE_RESOURCE_GROUP (ej. rg-aulanube-dev), AZURE_LOCATION (ej. eastus2)
+on:
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: Ambiente a desplegar
+        type: choice
+        options: [dev, test, prod]
+        default: dev
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.ambiente }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Iniciar sesión en Azure (OIDC, sin contraseñas en el repo)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Infraestructura (Bicep)
+        id: infra
+        run: |
+          az group create -n "${{ vars.AZURE_RESOURCE_GROUP }}" -l "${{ vars.AZURE_LOCATION }}" --output none
+          salida=$(az deployment group create \
+            -g "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            -f infra/main.bicep -p infra/main.parameters.json \
+            -p ambiente=${{ inputs.ambiente }} sqlAdminPassword="${{ secrets.SQL_ADMIN_PASSWORD }}" \
+            --query properties.outputs -o json)
+          echo "apiUrl=$(echo "$salida" | jq -r .apiUrl.value)" >> "$GITHUB_OUTPUT"
+          echo "apiNombre=$(echo "$salida" | jq -r .apiNombre.value)" >> "$GITHUB_OUTPUT"
+          echo "swaNombre=$(echo "$salida" | jq -r .staticWebAppNombre.value)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publicar API .NET
+        run: dotnet publish backend/src/AulaNube.Api -c Release -o publicacion-api
+
+      - name: Desplegar API en App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ steps.infra.outputs.apiNombre }}
+          package: publicacion-api
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Compilar Angular apuntando a la API desplegada
+        working-directory: frontend
+        run: |
+          sed -i "s|apiUrl: '.*'|apiUrl: '${{ steps.infra.outputs.apiUrl }}'|" src/environments/environment.ts
+          npm ci
+          npm run build
+
+      - name: Obtener token de Static Web Apps
+        id: swa
+        run: |
+          token=$(az staticwebapp secrets list -n "${{ steps.infra.outputs.swaNombre }}" --query properties.apiKey -o tsv)
+          echo "::add-mask::$token"
+          echo "token=$token" >> "$GITHUB_OUTPUT"
+
+      - name: Desplegar frontend en Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa.outputs.token }}
+          action: upload
+          app_location: frontend/dist/aulanube-web/browser
+          skip_app_build: true
+          skip_api_build: true

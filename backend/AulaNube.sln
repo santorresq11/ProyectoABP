@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9D030B1D-E931-4500-B262-43DDF44BC9D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AulaNube.Api", "src\AulaNube.Api\AulaNube.Api.csproj", "{CC72549C-5682-40D6-BB03-5CE911A2D8E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5CFB65D7-29AF-429A-AF06-2F2E6531A62B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AulaNube.Api.Tests", "tests\AulaNube.Api.Tests\AulaNube.Api.Tests.csproj", "{A09F4717-86EA-452D-96A6-08AC92CFD854}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC72549C-5682-40D6-BB03-5CE911A2D8E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC72549C-5682-40D6-BB03-5CE911A2D8E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC72549C-5682-40D6-BB03-5CE911A2D8E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC72549C-5682-40D6-BB03-5CE911A2D8E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09F4717-86EA-452D-96A6-08AC92CFD854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09F4717-86EA-452D-96A6-08AC92CFD854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09F4717-86EA-452D-96A6-08AC92CFD854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09F4717-86EA-452D-96A6-08AC92CFD854}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC72549C-5682-40D6-BB03-5CE911A2D8E9} = {9D030B1D-E931-4500-B262-43DDF44BC9D8}
+		{A09F4717-86EA-452D-96A6-08AC92CFD854} = {5CFB65D7-29AF-429A-AF06-2F2E6531A62B}
+	EndGlobalSection
+EndGlobal

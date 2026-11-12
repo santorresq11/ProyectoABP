@@ -1,0 +1,155 @@
+.sub {
+  margin: 0 0 16px;
+  color: var(--texto-suave);
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  color: var(--texto);
+
+  .etiqueta {
+    font-size: 13px;
+    color: var(--texto-suave);
+  }
+
+  strong {
+    font-size: 28px;
+  }
+
+  &.alto strong {
+    color: var(--alto);
+  }
+
+  &.medio strong {
+    color: var(--medio);
+  }
+
+  &.activo {
+    outline: 2px solid var(--primario);
+  }
+}
+
+button.kpi {
+  background: var(--tarjeta);
+  cursor: pointer;
+}
+
+.cuerpo {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) 3fr;
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grados ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .grado {
+    width: 32px;
+    font-weight: 600;
+  }
+
+  .barra {
+    display: flex;
+    height: 14px;
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 8px;
+  }
+
+  .cuenta {
+    font-size: 12px;
+    color: var(--texto-suave);
+    white-space: nowrap;
+  }
+}
+
+.seg.alto,
+.punto.alto {
+  background: var(--alto);
+}
+
+.seg.medio,
+.punto.medio {
+  background: #f79009;
+}
+
+.seg.bajo,
+.punto.bajo {
+  background: #75e0a7;
+}
+
+.leyenda {
+  font-size: 12px;
+  color: var(--texto-suave);
+
+  .punto {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-left: 8px;
+  }
+}
+
+.lista-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.filtros {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .chip {
+    border: none;
+    cursor: pointer;
+  }
+
+  .chip.inactivo {
+    opacity: 0.4;
+  }
+}
+
+td.malo {
+  color: var(--alto);
+  font-weight: 600;
+}
+
+a {
+  color: var(--primario);
+  font-weight: 600;
+}

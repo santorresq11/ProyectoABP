@@ -1,0 +1,131 @@
+.volver {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--primario);
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.sub {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+.riesgo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 180px;
+
+  strong {
+    font-size: 36px;
+  }
+
+  &.Alto strong {
+    color: var(--alto);
+  }
+
+  &.Medio strong {
+    color: var(--medio);
+  }
+
+  &.Bajo strong {
+    color: var(--bajo);
+  }
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+section.tarjeta {
+  margin-bottom: 16px;
+}
+
+.factores {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 12px;
+  }
+
+  .fila {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+
+  .valor {
+    color: var(--alto);
+  }
+
+  .barra {
+    height: 8px;
+    background: var(--fondo);
+    border-radius: 4px;
+    margin: 4px 0;
+
+    span {
+      display: block;
+      height: 100%;
+      background: var(--alto);
+      border-radius: 4px;
+    }
+  }
+
+  small {
+    color: var(--texto-suave);
+  }
+}
+
+.nota-xai {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+td.malo {
+  color: var(--alto);
+  font-weight: 600;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  input,
+  select {
+    width: 160px;
+  }
+
+  button {
+    align-self: flex-start;
+  }
+}
+
+.mensaje {
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--bajo-suave);
+  color: var(--bajo);
+}

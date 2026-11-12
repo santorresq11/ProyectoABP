@@ -1,0 +1,117 @@
+<a routerLink="/" class="volver">← Volver al tablero</a>
+
+@if (detalle(); as d) {
+  <section class="encabezado">
+    <div>
+      <h1>{{ d.nombre }}</h1>
+      <p class="sub">
+        Grado {{ d.grado }}° · {{ d.edad }} años · estrato {{ d.estrato }} · {{ d.distanciaKm }} km a la sede
+        @if (d.trabajaFueraDeClase) { · trabaja }
+        @if (d.repitente) { · repitente }
+        @if (d.beneficiarioPae) { · PAE }
+      </p>
+    </div>
+    <div class="tarjeta riesgo {{ d.riesgo.nivel }}">
+      <span>Alerta de deserción</span>
+      <strong>{{ d.riesgo.probabilidad | percent: '1.0-0' }}</strong>
+      <span class="chip {{ d.riesgo.nivel }}">Riesgo {{ d.riesgo.nivel }}</span>
+    </div>
+  </section>
+
+  <section class="rejilla">
+    <div class="tarjeta">
+      <h2>¿Por qué esta alerta?</h2>
+      @if (d.riesgo.factores.length) {
+        <ul class="factores">
+          @for (f of d.riesgo.factores; track f.variable) {
+            <li>
+              <div class="fila">
+                <span>{{ etiquetas[f.variable] ?? f.variable }}</span>
+                <span class="valor">+{{ f.contribucion | number: '1.2-2' }}</span>
+              </div>
+              <div class="barra"><span [style.width.%]="(f.contribucion / maxContribucion()) * 100"></span></div>
+              <small>{{ f.descripcion }}: {{ f.valor }}</small>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>No hay factores que aumenten el riesgo.</p>
+      }
+      <p class="nota-xai">Contribución de cada variable al puntaje del modelo (explicabilidad tipo SHAP).</p>
+    </div>
+
+    <div class="tarjeta">
+      <h2>Acciones sugeridas</h2>
+      <ol>
+        @for (r of d.riesgo.recomendaciones; track r) {
+          <li>{{ r }}</li>
+        }
+      </ol>
+      <p class="nota-xai">Sugerencias para el comité de convivencia y orientación; deben validarse con el estudiante y su familia.</p>
+    </div>
+  </section>
+
+  <section class="tarjeta">
+    <h2>Trayectoria por periodo</h2>
+    <div class="tabla-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Periodo</th>
+            @for (a of asignaturas; track a) {
+              <th>{{ a }}</th>
+            }
+            <th>Promedio</th>
+            <th>Asistencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of d.periodos; track p.periodo) {
+            <tr>
+              <td>{{ p.periodo }}</td>
+              @for (a of asignaturas; track a) {
+                @let n = notaDe(p, a);
+                <td [class.malo]="n !== undefined && n < 3">{{ n === undefined ? '—' : (n | number: '1.1-1') }}</td>
+              }
+              <td [class.malo]="p.promedio < 3">
+                <strong>{{ p.promedio | number: '1.2-2' }}</strong>
+              </td>
+              <td [class.malo]="p.asistencia < 0.85">{{ p.asistencia | percent: '1.0-0' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="rejilla">
+    <form class="tarjeta formulario" (ngSubmit)="guardarNota()">
+      <h2>Registrar nota</h2>
+      <label>Periodo <input type="number" name="periodo" min="1" max="4" [(ngModel)]="nota.periodo" /></label>
+      <label>
+        Asignatura
+        <select name="asignatura" [(ngModel)]="nota.asignatura">
+          @for (a of asignaturas; track a) {
+            <option [value]="a">{{ a }}</option>
+          }
+        </select>
+      </label>
+      <label>Nota (1.0 – 5.0) <input type="number" name="nota" min="1" max="5" step="0.1" [(ngModel)]="nota.valor" /></label>
+      <button type="submit">Guardar nota</button>
+    </form>
+
+    <form class="tarjeta formulario" (ngSubmit)="guardarAsistencia()">
+      <h2>Registrar asistencia</h2>
+      <label>Periodo <input type="number" name="periodoA" min="1" max="4" [(ngModel)]="asistencia.periodo" /></label>
+      <label>Clases programadas <input type="number" name="clases" min="1" [(ngModel)]="asistencia.clases" /></label>
+      <label>Inasistencias <input type="number" name="inasistencias" min="0" [(ngModel)]="asistencia.inasistencias" /></label>
+      <button type="submit">Guardar asistencia</button>
+    </form>
+  </section>
+
+  @if (mensaje()) {
+    <p class="mensaje" role="status">{{ mensaje() }}</p>
+  }
+} @else {
+  <p>Cargando ficha…</p>
+}
